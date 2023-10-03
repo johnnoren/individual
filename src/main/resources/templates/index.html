@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>Chat 1.0</title>
+</head>
+<body>
+
+<div th:each="msg : ${messages}">
+    <span th:text="${msg.username}"></span>: <span th:text="${msg.message}"></span>
+</div>
+<hr>
+<form id="form" action="#" th:action="@{addmessage}" method="get">
+    <div>
+        <label for="username">Username:</label><br>
+        <input type="text" th:value="${username}" id="username" name="username"><br>
+        <label for="message">Message:</label><br>
+        <input type="text" id="message" name="message"><br>
+        <input id="confirm-button" type="submit" value="Submit">
+    </div>
+</form>
+
+</body>
+</html>
