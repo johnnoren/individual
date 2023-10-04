@@ -44,7 +44,7 @@ val intTestRuntimeOnly by configurations.getting
 configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
 
 dependencies {
-    intTestImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    intTestImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     intTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
     intTestImplementation("io.rest-assured:rest-assured:5.3.2")
 }
