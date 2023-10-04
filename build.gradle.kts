@@ -11,56 +11,44 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-repositories {
-    mavenCentral()
+val intTestImplementation = configurations.create("intTestImplementation") {
+    extendsFrom(configurations.named("implementation").get())
+}
+val intTestRuntimeOnly = configurations.create("intTestRuntimeOnly") {
+    extendsFrom(configurations.named("runtimeOnly").get())
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation ("io.rest-assured:rest-assured:5.3.2")
-}
+    testImplementation("io.rest-assured:rest-assured:5.3.2")
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-        events("PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR")
-    }
-}
-
-sourceSets {
-    create("intTest") {
-        compileClasspath += sourceSets.main.get().output
-        runtimeClasspath += sourceSets.main.get().output
-    }
-}
-
-val intTestImplementation by configurations.getting {
-    extendsFrom(configurations.implementation.get())
-}
-val intTestRuntimeOnly by configurations.getting
-
-configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
-
-dependencies {
     intTestImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     intTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
     intTestImplementation("io.rest-assured:rest-assured:5.3.2")
 }
 
+sourceSets.create("intTest") {
+    compileClasspath += sourceSets.named("main").get().output
+    runtimeClasspath += sourceSets.named("main").get().output
+}
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+    testLogging {
+        events("PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR")
+    }
+}
 
-val integrationTest = task<Test>("integrationTest") {
+tasks.register<Test>("integrationTest") {
     description = "Runs integration tests."
     group = "verification"
-
-    testClassesDirs = sourceSets["intTest"].output.classesDirs
-    classpath = sourceSets["intTest"].runtimeClasspath
+    testClassesDirs = sourceSets.named("intTest").get().output.classesDirs
+    classpath = sourceSets.named("intTest").get().runtimeClasspath
     shouldRunAfter("test")
-
     useJUnitPlatform()
-
     testLogging {
         events("PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR")
     }
@@ -71,7 +59,3 @@ tasks {
         archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
     }
 }
-
-
-
-
