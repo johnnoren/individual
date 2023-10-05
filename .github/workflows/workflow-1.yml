@@ -163,12 +163,16 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  # Fake deployment job
+  # Fake deployment to test and production environment
   deploy:
     needs: publish
     runs-on: ubuntu-latest
-
-    # Use output variable from previous job to display image name and tag
     steps:
-      - name: Fake deployment
-        run : echo Deploying ${{needs.publish.outputs.tag}}
+      - name: Print base ref
+        run: echo ${{github.base_ref}}
+      - name: Deploy to test environment
+        if: ${{contains(github.base_ref, 'staging')}}
+        run : echo Deploying ${{needs.publish.outputs.tag}} to test environment
+      - name: Deploy to production environment
+        if: ${{contains(github.base_ref, 'production')}}
+        run : echo Deploying ${{needs.publish.outputs.tag}} to production environment
