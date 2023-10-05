@@ -168,6 +168,8 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     steps:
+      - name: Print base ref
+        run: echo ${{github.base_ref}}
       - name: Deploy to test environment
         if: ${{contains(github.base_ref, 'staging')}}
         run : echo Deploying ${{needs.publish.outputs.tag}} to test environment
