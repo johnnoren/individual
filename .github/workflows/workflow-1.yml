@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew jacocoTestCoverageVerification
 
       # Upload artifact to use in the next job
-      - name: upload artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: jar
