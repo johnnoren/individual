@@ -13,6 +13,7 @@ jobs:
 
   # Build jar, run unit tests and upload jar as artifact
   build:
+    name: Build and check code coverage
     runs-on: ubuntu-latest
     steps:
 
@@ -59,7 +60,7 @@ jobs:
 
   # Download jar and run integration tests
   integrationtests:
-
+    name: Run integration tests
     needs: build
     runs-on: ubuntu-latest
     steps:
