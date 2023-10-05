@@ -163,24 +163,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  # Fake deployment job to test environment
-  deploy-to-test-environment:
+  # Fake deployment to test and production environment
+  deploy:
     needs: publish
-    if: github.head_ref != 'production'
     runs-on: ubuntu-latest
-
-    # Use output variable from previous job to display image name and tag
     steps:
-      - name: Fake deployment
+      - name: Deploy to test environment
+        if: github.ref == 'refs/heads/staging' || github.event.pull_request.base.ref == 'staging'
         run : echo Deploying ${{needs.publish.outputs.tag}} to test environment
-
-  # Fake deployment job to production environment
-  deploy-to-production-environment:
-    needs: publish
-    if: github.head_ref == 'production'
-    runs-on: ubuntu-latest
-
-    # Use output variable from previous job to display image name and tag
-    steps:
-      - name: Fake deployment
-        run: echo Deploying ${{needs.publish.outputs.tag}} to production environment
+      - name: Deploy to production environment
+        if: github.event.pull_request.base.ref == 'production'
+        run : echo Deploying ${{needs.publish.outputs.tag}} to production environment
