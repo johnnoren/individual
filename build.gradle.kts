@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
+    jacoco
 }
 
 group = "com.example"
@@ -50,6 +51,16 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter:5.9.2")
 }
 
+// Enforce code coverage of 80% for all classes
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8.toBigDecimal()
+            }
+        }
+    }
+}
 
 tasks.withType<Test>().configureEach {
     jvmArgs("-XX:+EnableDynamicAgentLoading")

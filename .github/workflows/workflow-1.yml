@@ -2,6 +2,7 @@ name: Build, test and publish Docker image
 
 on:
   push:
+  pull_request:
 
 # Set environment variables for pushing Docker image to GitHub Container Registry
 env:
@@ -43,6 +44,10 @@ jobs:
       # Run build and run unit tests
       - name: Run build
         run: ./gradlew build
+
+      # Enforce code coverage threshold using jacoco
+      - name: Enforce code coverage threshold
+        run: ./gradlew jacocoTestCoverageVerification
 
       # Upload artifact to use in the next job
       - name: upload artifact
@@ -164,5 +169,5 @@ jobs:
 
     # Use output variable from previous job to display image name and tag
     steps:
-      - name: Echo deployment image
-        run : echo ${{needs.publish.outputs.tag}}
+      - name: Fake deployment
+        run : echo Deploying ${{needs.publish.outputs.tag}}
