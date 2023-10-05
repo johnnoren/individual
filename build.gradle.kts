@@ -63,7 +63,7 @@ tasks.jacocoTestCoverageVerification {
 }
 
 tasks.withType<Test>().configureEach {
-    jvmArgs("-XX:+EnableDynamicAgentLoading")
+    jvmArgs("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
     testLogging {
         events("PASSED", "SKIPPED", "FAILED", "STANDARD_ERROR")
     }
