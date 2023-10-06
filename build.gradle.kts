@@ -12,6 +12,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+@Suppress("UnstableApiUsage")
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
