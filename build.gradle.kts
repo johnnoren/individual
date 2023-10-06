@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
     jacoco
+    application
 }
 
 group = "com.example"
@@ -10,6 +11,11 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
+}
+
+application {
+    mainClass = "com.example.ciditest.CiditestApplication"
+    applicationDefaultJvmArgs = listOf("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
 }
 
 @Suppress("UnstableApiUsage")
