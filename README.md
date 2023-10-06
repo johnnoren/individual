@@ -1,5 +1,26 @@
 # Devops, individuell uppgift
 
+## Några kommandon
+
+### Köra enhetstest
+```
+  gradle test
+```
+
+### Köra integrationstest
+
+Starta appen: 
+```
+  gradle run
+```
+Kör integrationstest (använd nytt terminalfönster):
+```
+  gradle integrationTest
+```
+### Generera coveragerapport
+```
+  gradle jacocoTestReport
+```
 ## Teststrategi
 
 ### Enhetstester
